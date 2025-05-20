@@ -6,8 +6,8 @@ const accessRoles = require('../middleware/accessRoles');
 const auth = require('../middleware/auth');
 
 const onlyAdmin = accessRoles('admin');
-const adminOrPreparation = accessRoles('admin', 'Preparation');
-const adminOrReception = accessRoles('admin', 'Reception');
+const adminOrPreparation = accessRoles('admin', 'preparation');
+const adminOrReception = accessRoles('admin', 'reception');
 
 //creates a new item
 router.post('/',auth, adminOrReception, orderCtrl.createOrder);

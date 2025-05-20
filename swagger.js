@@ -12,7 +12,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:3000', // change to your base URL
+        url: 'http://localhost:3001', // change to your base URL
       },
     ],
   },
