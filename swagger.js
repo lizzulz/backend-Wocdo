@@ -24,9 +24,8 @@ const options = {
     }
   ],
   servers: [
-    {
-      url: 'http://localhost:3001', 
-    },
+   { url: 'http://localhost:3001' },
+   { url: 'https://backend-wocdo.onrender.com' },
   ],
   },
   apis: ['./routes/*.js'], // files with Swagger annotations
