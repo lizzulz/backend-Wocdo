@@ -1,4 +1,3 @@
-// swagger.js
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -10,11 +9,25 @@ const options = {
       version: '1.0.0',
       description: 'API documentation for my app',
     },
-    servers: [
-      {
-        url: 'http://localhost:3001', // change to your base URL
-      },
-    ],
+    components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT'
+      }
+    }
+  },
+  security: [
+    {
+      bearerAuth: []
+    }
+  ],
+  servers: [
+    {
+      url: 'http://localhost:3001', 
+    },
+  ],
   },
   apis: ['./routes/*.js'], // files with Swagger annotations
 };

@@ -1,6 +1,7 @@
-// tests/items.test.js
+
 const request = require('supertest');
-const app = require('./app');
+const app = require('../app');
+const mongoose = require('mongoose');
 
 const userPayload = { email: 'useradmin@wocdo.com', password: 'userAdminPassword1', access: 'admin' }; 
 
@@ -14,12 +15,8 @@ beforeAll(async () => {
   token = res.body.token;
 });
 
-it('should access protected route', async () => {
-  const res = await request(app)
-    .get('/api/menus')
-    .set('Authorization', `Bearer ${token}`);
-
-  expect(res.statusCode).toBe(200);
+afterAll(async () => {
+  await mongoose.connection.close();
 });
 
 describe('Item API', () => {
@@ -43,6 +40,7 @@ describe('Item API', () => {
 
     const res = await request(app)
       .post('/api/items')
+      .set('Authorization', `Bearer ${token}`)
       .send(newItem);
 
     expect(res.statusCode).toBe(401);

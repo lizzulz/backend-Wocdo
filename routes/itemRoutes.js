@@ -9,9 +9,9 @@ const onlyAdmin = accessRoles('admin');
 
 /**
  * @swagger
- * /items:
+ * /api/items/:
  *   post:
- *     summary: Create a new item
+ *     summary: Creates a new item
  *     requestBody:
  *       required: true
  *       content:
@@ -27,8 +27,16 @@ const onlyAdmin = accessRoles('admin');
  *                 type: number
  *               imageUrls: 
  *                 type: array
+ *                 items:
+ *                   type: string
  *               inStock: 
  *                 type: boolean
+ *             required:
+ *               - name
+ *               - description
+ *               - price
+ *               - imagesUrls
+ *               - inStrock  
  *     responses:
  *       201:
  *         description: Item created
@@ -39,9 +47,22 @@ router.post('/', auth, onlyAdmin, itemCtrl.createItem);
 
 /**
  * @swagger
- * /items/{id}:
+ * /api/items/:
  *   get:
- *     summary: Get an item by its stored ID
+ *     summary: Gets all the items
+ *     responses:
+ *       200:
+ *         description: All items were retrived
+ *       400:
+ *         description: Error when retrieving all items
+ */
+router.get('/', auth, onlyAdmin, itemCtrl.getAllItems);
+
+/**
+ * @swagger
+ * /api/items/{id}:
+ *   get:
+ *     summary: Gets an item matching the provided stored ID
  *     parameters:
  *       - in: path
  *         id: _id
@@ -59,9 +80,9 @@ router.get('/:id', auth, onlyAdmin, itemCtrl.getOneItem);
 
 /**
  * @swagger
- * /items/{id}:
+ * /api/items/{id}:
  *   put:
- *     summary: updates the item by name give
+ *     summary: updates the item matching the provided stored ID
  *     parameters:
  *       - in: path
  *         id: _id
@@ -69,17 +90,42 @@ router.get('/:id', auth, onlyAdmin, itemCtrl.getOneItem);
  *         schema:
  *           type: string
  *         description: The ID of the item to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description: 
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               imageUrls: 
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               inStock: 
+ *                 type: boolean
+ *           anyOf:
+ *             - required: [name]
+ *             - required: [description]
+ *             - required: [price]
+ *             - required: [imagesUrls]
+ *             - required: [inStock]
  *     responses:
  *       200:
- *         description: The item was found
+ *         description: The item was updated
  *       404:
- *         description: Item not found
+ *         description: Error when updating the item
  */
 router.put('/:id', auth, onlyAdmin, itemCtrl.modifyItem);
 
 /**
  * @swagger
- * /items/{id}:
+ * /api/items/{id}:
  *   delete:
  *     summary: deletes an item by its stored ID
  *     parameters:
@@ -93,21 +139,8 @@ router.put('/:id', auth, onlyAdmin, itemCtrl.modifyItem);
  *       200:
  *         description: The item was deleted
  *       404:
- *         description: Item not found
+ *         description: Error when deleting the item
  */
 router.delete('/:id', auth, onlyAdmin, itemCtrl.deleteItem);
-
-/**
- * @swagger
- * /items:
- *   get:
- *     summary: Get all the items
- *     responses:
- *       200:
- *         description: All items were retrived
- *       400:
- *         description: Error when getting all items
- */
-router.get('/', auth, onlyAdmin, itemCtrl.getAllItems);
 
 module.exports = router;

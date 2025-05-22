@@ -1,12 +1,12 @@
 
-const { calculateOrderTotal } = require('./utils/orderUtils');
-const Item = require('./models/Item');
-const Menu = require('./models/Menu');
+const { calculateOrderTotal } = require('../utils/orderUtils');
+const Item = require('../models/Item');
+const Menu = require('../models/Menu');
 
 
 // Auto-mock 
-jest.mock('./models/Item');
-jest.mock('./models/Menu');
+jest.mock('../models/Item');
+jest.mock('../models/Menu');
 
 
 describe('calculateOrderTotal', () => {

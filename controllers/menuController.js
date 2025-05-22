@@ -41,31 +41,28 @@ exports.getOneMenu = (req, res) => {
 
 exports.modifyMenu = async (req, res) => {
   try {
-      const { id } = req.params;
-      console.log("id:", id);
-      
-      const updateData = { ...req.body }; // Copy request data
-      
-      // Ensure _id is not included in the update (just in case)
-      delete updateData._id;
-  
-      const result = await Menu.updateOne(
-          { _id: id },  // Find by id
-          { $set: updateData },  // Update only the provided fields
-          { runValidators: true }
-      );
-      
-      if (!result || result.matchedCount == 0) {
-          return res.status(404).json({ message: "Menu not found" });
-      }
-  
-      res.json({ message: "Menu updated successfully", modifiedCount: result.modifiedCount });
-  
-  
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Error updating menu", error: error.message });
+    const { id } = req.params;
+    console.log("id:", id);
+    
+    const updateData = { ...req.body }; 
+    delete updateData._id;
+
+    const result = await Menu.updateOne(
+      { _id: id },  // Find by id
+      { $set: updateData },  // Update only the provided fields
+      { runValidators: true }
+    );
+    
+    if (!result || result.matchedCount == 0) {
+      return res.status(404).json({ message: "Menu not found" });
     }
+
+    res.json({ message: "Menu updated successfully", modifiedCount: result.modifiedCount });
+  
+  }catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating menu", error: error.message });
+  }
 }
 
 exports.deleteMenu = (req, res) => {
@@ -85,15 +82,15 @@ exports.deleteMenu = (req, res) => {
 }
 
 exports.getAllMenus = (req, res) => {
-    Menu.find().then(
-      (menus) => {
-        res.status(200).json(menus);
-      }
-    ).catch(
-      (error) => {
-        res.status(400).json(
-          {message: "Error when getting all menus",
-            error: error});
-      }
-    );
-  }
+  Menu.find().then(
+    (menus) => {
+      res.status(200).json(menus);
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json(
+        {message: "Error when getting all menus",
+          error: error});
+    }
+  );
+}

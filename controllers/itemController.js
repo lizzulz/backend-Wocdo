@@ -18,7 +18,7 @@ exports.createItem = (req, res) => {
     (error) => {
       res.status(401).json(
         {message: "Error when creating new item",
-          error: error});
+         error: error});
     }
   );
 }
@@ -50,9 +50,9 @@ exports.modifyItem = async (req, res) => {
     delete updateData._id;
 
     const result = await Item.updateOne(
-        { _id: id },  // Find by id
-        { $set: updateData },  // Update only the provided fields
-        { runValidators: true }
+      { _id: id },  // Find by id
+      { $set: updateData },  // Update only the provided fields
+      { runValidators: true }
     );
     
     if (!result || result.matchedCount == 0) {
@@ -86,15 +86,15 @@ exports.deleteItem = (req, res) => {
 }
 
 exports.getAllItems = (req, res) => {
-    Item.find().then(
-      (items) => {
-        res.status(200).json(items);
-      }
-    ).catch(
-      (error) => {
-        res.status(400).json(
-          {message: "Error when getting all items",
-            error: error});
-      }
-    );
-  }
+  Item.find().then(
+    (items) => {
+      res.status(200).json(items);
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json(
+        {message: "Error when getting all items",
+          error: error});
+    }
+  );
+}
